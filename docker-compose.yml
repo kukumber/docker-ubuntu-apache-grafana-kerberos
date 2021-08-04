@@ -1,0 +1,26 @@
+---
+version: "3"
+services:
+  apache:
+    image: "<apache_krb_image_tag>"
+    container_name: apache
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - /<path_to>/krb5.conf:/etc/krb5.conf:ro
+      - /<path_to>/apache2.conf:/etc/apache2/apache2.conf:ro
+      - /<path_to>/file.keytab:/etc/file.keytab:ro
+      - /<path_to>/public.pem:/etc/pki/public.pem:ro
+      - /<path_to>/private.pem:/etc/pki/private.pem:ro
+    restart: always
+
+  grafana:
+    image: "grafana/grafana"
+    container_name: grafana
+    user: "root"
+    volumes:
+      - /<path_to>/grafana.ini:/etc/grafana/grafana.ini:ro
+      - /<path_to>/var/lib/grafana:/var/lib/grafana
+    restart: always
+
